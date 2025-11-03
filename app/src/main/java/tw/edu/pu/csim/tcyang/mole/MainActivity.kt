@@ -13,15 +13,14 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import tw.edu.pu.csim.tcyang.mole.ui.theme.MoleTheme
 
 class MainActivity : ComponentActivity() {
@@ -37,8 +36,8 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MoleScreen() {
-    var counter by remember { mutableLongStateOf(0) }
+fun MoleScreen(moleViewModel: MoleViewModel = viewModel) {
+    val counter by moleViewModel.counter.collectAsState()
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -49,7 +48,7 @@ fun MoleScreen() {
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .size(150.dp)
-                .clickable { counter++ }
+                .clickable { moleViewModel.incrementCounter() }
         )
 
         Text(
